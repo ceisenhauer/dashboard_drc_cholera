@@ -1,0 +1,40 @@
+`r paste0(tinker::str_to_display(r), '{data-navmenu="Provinces"}')`
+====================================================================================================
+
+## Column {data-width=250}
+----------------------------------------------------------------------------------------------------
+
+### overview
+<div style='height:10%; top:0' align='center'>
+  <a href='#nationale' style='font-size:9px; margin-bottom:3px'>RETOUR AU NATIONALE</a>
+  <h2>`r tinker::str_to_display(r)`</h2>
+</div>
+	
+<div style='height:67%'>
+
+```{r}
+  shiny::tabsetPanel(type = 'tabs',
+                     shiny::tabPanel('Tendance', maps[[r]]$trend),
+                     shiny::tabPanel('Cas', maps[[r]]$cases),
+                     shiny::tabPanel('Bar', bars[[r]])
+)
+
+```
+</div>
+
+<div class='subrow' style='height:11.5%' align='center'>
+  `r infocons[[r]]$cases`
+  `r infocons[[r]]$measles`
+</div>
+
+<div class='subrow' style='height:11.5%' align='center'>
+  `r infocons[[r]]$alert`
+  `r infocons[[r]]$confirmed_alert`
+</div>
+
+
+## Column
+----------------------------------------------------------------------------------------------------
+### timeseries grid
+`r ts_plots[[r]]`
+

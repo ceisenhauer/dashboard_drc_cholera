@@ -1,0 +1,80 @@
+---
+title: 'CHOLERA'
+output: 
+  flexdashboard::flex_dashboard:
+    css: "../www/styles.css"
+    favicon: "../www/favicon.png"
+    mathjax: NULL
+    theme: sandstone
+    navbar:
+      - { icon: 'fa fa-github', href: 'https://github.com/ceisenhauer/dashboard_drc_cholera',
+          target: 'new', align: 'right', class: 'github', font-size: '18px'}
+---
+
+```{r setup, include=FALSE}
+library(tidytable)
+library(shiny)
+library(reactable)
+library(echarts4r)
+library(echarty)
+
+#tinker::source_directory(here::here('code', 'mods'))
+#source_directory('utils/')
+
+options(knitr.duplicate.label = 'allow')
+```
+
+
+<!-- ------------------------------------------------------------------------------------------- -->
+```{r load_outs}
+
+#infocons <- readRDS(here::here('out', 'infocons.RDS'))
+bars <- readRDS(here::here('out', 'bars.RDS'))
+maps <- readRDS(here::here('out', 'maps.RDS'))
+#ts_plots <- readRDS(here::here('out', 'ts_plots.RDS'))
+rctbl <- readRDS(here::here('out', 'rctbl.RDS'))
+
+```
+
+<!-- ------------------------------------------------------------------------------------------- -->
+Overview 
+====================================================================================================
+
+## Column 
+----------------------------------------------------------------------------------------------------
+### overview
+```{r}
+  shiny::tabsetPanel(type = 'tabs',
+			  shiny::tabPanel('Tendance', maps$trend),
+			  shiny::tabPanel('Cas', maps$cases),
+        shiny::tabPanel('Décès', maps$deaths),
+			  shiny::tabPanel('Bar', bars)
+)
+
+```
+
+## Column {data-width=650}
+----------------------------------------------------------------------------------------------------
+### Table
+```{r table}
+rctbl
+```
+
+<button class='linkout'
+		onclick = 'Reactable.downloadDataCSV(tableId = "my-select", "cholera.csv")'
+		style = 'position: absolute; top: 0px; left: 0px; z-index: 999;'>CSV</button>
+
+
+<!-- ------------------------------------------------------------------------------------------- -->
+About
+====================================================================================================
+<h3>A PROPOS</h3>
+<p>Ce tableau de bord est développé et maintenu par [Epicentre](https://epicentre.msf.org/) pour soutenir les missions de Médecins sans Frontières en République Démocratique du Congo. Plus d'informations bientôt !<p>
+
+<div class='foot'>MADE WITH <span style='color:#7887AB; font-size: 20px'>&#9829;</span> BY [CAT](https://www.linkedin.com/in/catherine-eisenhauer-76664b35/)</div>
+
+
+<!-- ------------------------------------------------------------------------------------------- -->
+<script src='../www/functions.js'></script>
+
+
