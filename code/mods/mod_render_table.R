@@ -10,7 +10,9 @@ mod_render_table <- function(tbl) {
 
   tooltips <- list(
 	  oc = 'section msf responsable dans la zone',
-    alert = paste('une alerte suspectée est déclenchée lorsqu\'une zone compte un cas suspect'),
+    alert = paste('une alerte suspectée est déclenchée lorsqu\'une zone compte un cas suspect;',
+                  'une zone restera en alerte, même en l\'absence de nouveaux cas, jusqu\'à 4',
+                  'semaines, après quoi l\'alerte sera levée'),
     neighbors = paste('nombre de zones de santé voisines où une épidémie est en cours'),
     cases_spk_long = paste('courbe des cas suspects hebdomadaires pendant l\'année en cours',
                            ' [source : IDS]'),

@@ -46,6 +46,7 @@ Overview
 ```{r}
   shiny::tabsetPanel(type = 'tabs',
 			  shiny::tabPanel('Tendance', maps$trend),
+        shiny::tabPanel('Alertes', maps$alert),
 			  shiny::tabPanel('Cas', maps$cases),
         shiny::tabPanel('Décès', maps$deaths),
 			  shiny::tabPanel('Bar', bars)
