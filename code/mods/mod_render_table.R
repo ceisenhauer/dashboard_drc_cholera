@@ -34,13 +34,13 @@ mod_render_table <- function(tbl, link_list) {
 
                                    if (value %in% link_list) {
                                      out <- htmltools::tags$a(href = paste0('#', value),
-                                                              target = 'self',
+                                                              #target = 'self',
                                                               value_display)
                                    } else {
                                      out <- value_display
                                    }
 
-                                   return(value_display)
+                                   return(out)
                                  },
                                  sticky = 'left',
                                  border_right = TRUE,
