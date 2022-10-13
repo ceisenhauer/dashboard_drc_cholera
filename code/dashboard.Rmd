@@ -28,11 +28,12 @@ options(knitr.duplicate.label = 'allow')
 <!-- ------------------------------------------------------------------------------------------- -->
 ```{r load_outs}
 
-#infocons <- readRDS(here::here('out', 'infocons.RDS'))
 bars <- readRDS(here::here('out', 'bars.RDS'))
+curves <- readRDS(here::here('out', 'curves.RDS'))
+infocons <- readRDS(here::here('out', 'infocons.RDS'))
 maps <- readRDS(here::here('out', 'maps.RDS'))
-#ts_plots <- readRDS(here::here('out', 'ts_plots.RDS'))
 rctbl <- readRDS(here::here('out', 'rctbl.RDS'))
+ts_plots <- readRDS(here::here('out', 'ts_plots.RDS'))
 
 ```
 
@@ -45,16 +46,17 @@ Overview
 ### overview
 ```{r}
   shiny::tabsetPanel(type = 'tabs',
-			  shiny::tabPanel('Tendance', maps$trend),
-        shiny::tabPanel('Alertes', maps$alert),
-			  shiny::tabPanel('Cas', maps$cases),
-        shiny::tabPanel('Décès', maps$deaths),
+			  shiny::tabPanel('Tendance', maps$rdc$trend),
+        shiny::tabPanel('Alertes', maps$rdc$alert),
+			  shiny::tabPanel('Cas Suspects', maps$rdc$cases),
+        shiny::tabPanel('Décès', maps$rdc$deaths),
+			  shiny::tabPanel('Courbe', curves$rdc),
 			  shiny::tabPanel('Bar', bars)
 )
 
 ```
 
-## Column {data-width=650}
+## Column {data-width=750}
 ----------------------------------------------------------------------------------------------------
 ### Table
 ```{r table}
@@ -67,10 +69,32 @@ rctbl
 
 
 <!-- ------------------------------------------------------------------------------------------- -->
+```{r render subpages, include=FALSE}
+out <- NULL
+regions <- names(ts_plots)
+
+# set up a contained environment to knit subpages
+subpage_env <- new.env()
+
+for (r in regions) {
+  # assign r within the subpage environment
+  assign('r', r, subpage_env)
+  
+  # knit subpage
+  out <- c(out, knitr::knit_child('subpage_timeseries.Rmd', envir = subpage_env))
+}
+```
+
+`r paste(knitr::knit_child(text = out), collapse = '')`
+
+
+<!-- ------------------------------------------------------------------------------------------- -->
 About
 ====================================================================================================
 <h3>A PROPOS</h3>
 <p>Ce tableau de bord est développé et maintenu par [Epicentre](https://epicentre.msf.org/) pour soutenir les missions de Médecins sans Frontières en République Démocratique du Congo. Plus d'informations bientôt !<p>
+<br><br>
+<p>Dernier mis à jour : <b>`r Sys.Date()`</b></p>
 
 <div class='foot'>MADE WITH <span style='color:#7887AB; font-size: 20px'>&#9829;</span> BY [CAT](https://www.linkedin.com/in/catherine-eisenhauer-76664b35/)</div>
 
