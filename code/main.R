@@ -508,7 +508,7 @@ tbl %>%
           #oc = ifelse(oc != '', add_subpage_link(oc), oc),
           trend = ifelse(trend == 'Inconnu', '', trend),
           alert = ifelse(alert, 'Alerte', ''),
-          zone = tinker::str_to_display(zone),
+          zone = tinker::str_to_display(zone)) %>%
           #reg = tinker::str_to_display(reg)) %>%
           #reg = ifelse(reg %in% regions_in_alert,
                        #add_subpage_link(reg),
