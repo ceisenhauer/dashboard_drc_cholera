@@ -97,6 +97,8 @@ ul.nav.navbar-nav.navbar-right > li > a {
 .nav-tabs {
   text-align:center;
   border-bottom-width: 0px !important;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
