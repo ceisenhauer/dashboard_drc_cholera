@@ -14,6 +14,12 @@ epi_trend <- function(x, smooth = TRUE, smooth_window = 6, trend_window = smooth
                n = trend_window,
                thresh = threshold)
 
+  out <- switch(out,
+                decreasing = 'Baisse',
+                increasing = 'Hausse',
+                stable = 'Stable',
+                Unknown = 'Inconnu')
+
   return(out)
 }
 
