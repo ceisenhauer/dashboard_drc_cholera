@@ -1,0 +1,36 @@
+`r paste0(tinker::str_to_display(r), '{data-navmenu="Provinces en Alerte"}')`
+====================================================================================================
+
+## Column {data-width=250}
+----------------------------------------------------------------------------------------------------
+
+### overview
+<div style='height:5%; top:0' align='center'>
+  <a href='#nationale' style='font-size:9px; margin-bottom:3px'>RETOUR A L'OVERVIEW</a>
+  <h2>`r tinker::str_to_display(r)`</h2>
+</div>
+	
+<div style='height:82%'>
+
+```{r}
+  shiny::tabsetPanel(type = 'tabs',
+                     shiny::tabPanel('Tendance', maps[[r]]$trend),
+                     shiny::tabPanel('Cas', maps[[r]]$cases),
+                     shiny::tabPanel('Décès', maps[[r]]$deaths),
+                     shiny::tabPanel('Courbe', curves[[r]])
+)
+
+```
+</div>
+
+<div class='subrow' style='height:13%' align='center'>
+  `r infocons[[r]]$cases`
+  `r infocons[[r]]$alert`
+</div>
+
+
+## Column
+----------------------------------------------------------------------------------------------------
+### timeseries grid
+`r ts_plots[[r]]`
+
