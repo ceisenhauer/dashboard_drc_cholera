@@ -33,6 +33,7 @@ mod_render_table <- function(tbl, link_list) {
                                    value_display <- tinker::str_to_display(value)
 
                                    if (value %in% link_list) {
+                                     value <- gsub('_', '-', value)
                                      out <- htmltools::tags$a(href = paste0('#', value),
                                                               #target = 'self',
                                                               value_display)
