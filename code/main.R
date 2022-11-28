@@ -14,10 +14,14 @@ library(tinker)
 library(echarty)
 library(echarts4r)
 library(reactable)
+library(htmltools)
 
 tinker::source_directory(here::here('code', 'mods'))
 #source(here::here('code', 'mods', 'mod_prepare_IDS.R'))
 #source(here::here('code', 'mods', 'mod_prepare_lab.R'))
+source(here::here('code', 'render_reactable.R'))
+source(here::here('code', 'render_reactable_styles.R'))
+source(here::here('code', 'render_reactable_columns.R'))
 source(here::here('code', 'utils.R'))
 
 # UPDATE DATA (IF NEEDED) --------------------------------------------------------------------------
@@ -75,8 +79,9 @@ df <- df %>%
 # CURRENT INDICATORS -----
 # general
 tbl <- df %>%
+   #filter.(zone == 'mulongo') %>%
    select.(reg, zone, reg_zone, date, alert, cases, cases_4w, deaths) %>%
-   filter.(date >=  max(date) - (7 * 6)) %>%      # calculate on the minimum amount of data needed
+   #filter.(date >=  max(date) - (7 * 6)) %>%      # calculate on the minimum amount of data needed
    mutate.(cases = ifelse(cases == 0, NA, cases), # reintroduce NAs to allow "indeterminant" trend
            deaths_4w = zoo::rollsum(deaths,
                                     k = 4,
@@ -85,10 +90,10 @@ tbl <- df %>%
            trend = epi_trend(cases),
            .by = reg_zone) %>%
    filter.(date == max(date)) %>%
-   mutate.(trend = case_when(trend == 'increasing' ~ 'Hausse',
-                             trend == 'decreasing' ~ 'Baisse',
-                             trend == 'stable' ~ 'Stable',
-                             TRUE ~ 'Inconnu'),
+   mutate.(#trend = case_when(trend == 'increasing' ~ 'Hausse',
+                             #trend == 'decreasing' ~ 'Baisse',
+                             #trend == 'stable' ~ 'Stable',
+                             #TRUE ~ 'Inconnu'),
            cfr_4w = deaths_4w / cases_4w)
 
 # add endemicity column
@@ -425,31 +430,6 @@ for (r in c('rdc', regions_in_alert)) {
                .by = date) %>%
     mutate.(trend = epi_trend(cases))
 
-  #e1 <- tmp %>%
-    #echarts4r::e_charts(date,
-                        #renderer = 'svg') %>%
-    #echarts4r::e_bar(cases,
-                     #color = colors[[unique(tmp$trend)]],
-                     #barCategoryGap = 0,
-                     #name = paste0('Cas Suspects (Tendance : ', unique(tmp$trend), ')')) %>%
-    #echarts4r::e_toolbox(orient = 'vertical') %>%
-    #echarts4r::e_toolbox_feature(feature = c('dataZoom')) %>%
-    #echarts4r::e_tooltip(trigger = 'axis') %>%
-    #echarts4r::e_group(paste0('curve-', r))
-
-  #e2 <- tmp %>%
-    #echarts4r::e_charts(date,
-                        #renderer = 'svg') %>%
-    #echarts4r::e_bar(deaths,
-                     #color = '#6A6A6A',
-                     #barCategoryGap = 0,
-                     #name = 'Décès') %>%
-    #echarts4r::e_tooltip(trigger = 'axis') %>%
-    #echarts4r::e_group(paste0('curve-', r)) %>%
-    #echarts4r::e_connect_group(paste0('curve-', r))
-
-  #curves[[r]] <- e_arrange(e1, e2)
-
   curves[[r]] <- tmp %>%
        e_charts(date,
                 renderer = 'svg') %>%
@@ -493,14 +473,14 @@ tbl %>%
   #htmlwidgets::saveWidget('table.html')
 
 # add province / oc links
-add_subpage_link <- function(x, to_display = TRUE) {
-  out <- x %>%
-           paste0('<a href="#', ., '">', tinker::str_to_display(.), '</a>') %>%
-           stringr::str_replace('_', '-') %>%
-           HTML()
+#add_subpage_link <- function(x, to_display = TRUE) {
+  #out <- x %>%
+           #paste0('<a href="#', ., '">', tinker::str_to_display(.), '</a>') %>%
+           #stringr::str_replace('_', '-') %>%
+           #HTML()
 
-  return(out)
-}
+  #return(out)
+#}
 
              
 tbl %>%
