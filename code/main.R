@@ -460,27 +460,27 @@ saveRDS(curves, here::here('out', 'curves.RDS'))
 
 
 # table --------------------------------------------------------------------------------------------
-tbl %>% rio::export(here::here('out', 'current_indicators.csv'))
-tbl %>% saveRDS(here::here('out', 'current_indicators.RDS'))
+#tbl %>% rio::export(here::here('out', 'current_indicators.csv'))
+#tbl %>% saveRDS(here::here('out', 'current_indicators.RDS'))
 
-tbl %>%
-  #filter(zone != 'shabunda') %>%
-	mutate(oc = ifelse(reg %in% c('ituri', 'tshopo'), 'OCG', '')) %>%
-  mutate(trend = ifelse(trend == 'Inconnu', '', trend),
-         alert = ifelse(alert == 'Alerte', 'Alerte', '')) %>%
-  #filter(reg == 'tshopo' | reg == 'ituri') %>%
-  mod_render_table()# %>%
-  #htmlwidgets::saveWidget('table.html')
+#tbl %>%
+  ##filter(zone != 'shabunda') %>%
+	#mutate(oc = ifelse(reg %in% c('ituri', 'tshopo'), 'OCG', '')) %>%
+  #mutate(trend = ifelse(trend == 'Inconnu', '', trend),
+         #alert = ifelse(alert == 'Alerte', 'Alerte', '')) %>%
+  ##filter(reg == 'tshopo' | reg == 'ituri') %>%
+  #mod_render_table()# %>%
+  ##htmlwidgets::saveWidget('table.html')
 
-# add province / oc links
-#add_subpage_link <- function(x, to_display = TRUE) {
-  #out <- x %>%
-           #paste0('<a href="#', ., '">', tinker::str_to_display(.), '</a>') %>%
-           #stringr::str_replace('_', '-') %>%
-           #HTML()
+## add province / oc links
+##add_subpage_link <- function(x, to_display = TRUE) {
+  ##out <- x %>%
+           ##paste0('<a href="#', ., '">', tinker::str_to_display(.), '</a>') %>%
+           ##stringr::str_replace('_', '-') %>%
+           ##HTML()
 
-  #return(out)
-#}
+  ##return(out)
+##}
 
              
 tbl %>%
