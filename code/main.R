@@ -24,6 +24,8 @@ source(here::here('code', 'render_reactable_styles.R'))
 source(here::here('code', 'render_reactable_columns.R'))
 source(here::here('code', 'utils.R'))
 
+
+
 # UPDATE DATA (IF NEEDED) --------------------------------------------------------------------------
 # this is probably going to be moved to a bash script
 #chol <- mod_prepare_IDS('IDS_2022_38.xlsx')
@@ -43,13 +45,17 @@ source(here::here('code', 'utils.R'))
 
 
 # LOAD ---------------------------------------------------------------------------------------------
-df <- rio::import(here::here('out', 'current_clean.csv'),
-                  select = c('prov', 'zs', 'prov_zs', 'year', 'numsem', 'debutsem', 'pop',
-                             'totalcas', 'totaldeces'),
-                  col.names = c('reg', 'zone', 'reg_zone', 'year', 'week', 'date', 'pop', 'cases',
-                                'deaths')) %>%
-        filter.(zone != 'shabunda_centre') %>%
-        mutate.(date = as.Date(date))
+#df <- rio::import(here::here('out', 'current_clean.csv'),
+                  #select = c('prov', 'zs', 'prov_zs', 'year', 'numsem', 'debutsem', 'pop',
+                             #'totalcas', 'totaldeces'),
+                  #col.names = c('reg', 'zone', 'reg_zone', 'year', 'week', 'date', 'pop', 'cases',
+                                #'deaths')) %>%
+        #filter.(zone != 'shabunda_centre') %>%
+        #mutate.(date = as.Date(date))
+
+df <- rio::import(here::here('data', 'clean', 'cholera_ids.RDS'))
+
+min_date <- lubridate::today() - 180
 
 endemic <- rio::import(here::here('data', 'reference', 'endemic_zones.csv'),
                        select = c('reg', 'zone')) %>%
@@ -130,6 +136,7 @@ tbl <- df %>%
 
 
 tbl <- df %>%
+  filter.(date >= min_date) %>%
   summarize.(cases_spk_long = list(cases),
              .by = reg_zone) %>%
   right_join(tbl)
@@ -161,6 +168,7 @@ ts_plots <- list()
 for (r in regions_in_alert) {
   writeLines(r)
   ts_plots[[r]] <- df %>%
+                     filter.(date >= min_date) %>%
                      #filter(zone != 'shabunda') %>%
                      mod_plot_epicurves(region = r,
                                         nrow = nrows[[r]],
@@ -238,7 +246,7 @@ infocon <- function(value, title, subtitle, img_path, img_width = '25%', tooltip
 infocons <- list()
 
 df_infocon <- tbl %>%
-  filter.(zone != 'shabunda') %>%
+  #filter.(zone != 'shabunda') %>%
   summarize.(across.(c(cases_4w, alert), ~ sum(., na.rm = TRUE)),
              .by = 'reg') %>%
   filter.(alert > 0)
@@ -419,9 +427,13 @@ for (r in c('rdc', regions_in_alert)) {
   writeLines(r)
 
   if (r == 'rdc') {
-    tmp <- df
+    tmp <- df %>%
+             filter(date >= min_date)
+ 
   } else {
-    tmp <- df %>% filter(reg == r)
+    tmp <- df %>%
+            filter(reg == r,
+                   date >= min_date)
   }
 
   tmp <- tmp %>%

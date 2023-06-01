@@ -16,8 +16,7 @@ mod_plot_epicurves <- function(df, region, acts = NULL, add_acts = FALSE,
   tmp <- df %>%
            filter(if_all(c(reg, zone, trend),
                          ~ !is.na(.)),
-                  reg == region,
-                  year == 2022) %>%
+                  reg == region) %>%
            distinct()
 
   zones <- tmp %>%
