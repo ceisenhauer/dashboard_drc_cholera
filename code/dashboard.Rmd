@@ -49,7 +49,7 @@ Overview
 ## Column 
 ----------------------------------------------------------------------------------------------------
 ### overview
-```{r}
+```{r maps}
   shiny::tabsetPanel(type = 'tabs',
 			  shiny::tabPanel('Tendance', maps$rdc$trend),
         shiny::tabPanel('Alertes', maps$rdc$alert),

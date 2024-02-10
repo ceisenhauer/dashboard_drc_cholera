@@ -1,5 +1,5 @@
 # --------------------------------------------------------------------------------------------------
-# Main : Prepare data and plots
+# Main : Prepare data and plots then render out
 #
 # Author : Catherine Eisenhauer
 # Date : August 2022
@@ -23,7 +23,10 @@ sapply(list.files(here::here('code', 'mods'),
        .GlobalEnv)
 
 # LOAD ---------------------------------------------------------------------------------------------
-df <- rio::import(here::here('data', 'clean', 'cholera_ids.RDS'))
+df <- mod_prepare_cholera(data_root = here::here('data', 'raw'),
+                          data_file = 'IDS_2023_52.xlsx',
+                          year = 2023)
+#df <- rio::import(here::here('data', 'clean', 'cholera_ids.RDS'))
 
 min_date <- lubridate::today() - 180
 
