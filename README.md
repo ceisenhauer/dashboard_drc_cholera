@@ -1,4 +1,4 @@
-Dashboard : Measles in DRC <img src='www/logo.svg' align='right' alt='' width='200' />
+Dashboard : Cholera in DRC <img src='www/logo.svg' align='right' alt='' width='200' />
 ====================================================================================================
 
 <!-- badges: start -->
