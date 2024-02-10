@@ -20,7 +20,7 @@ mod_plot_epicurves <- function(df, region, acts = NULL, add_acts = FALSE,
            distinct()
 
   zones <- tmp %>%
-             tidytable::select.(trend, zone) %>%
+             select(trend, zone) %>%
              unique() %>%
              mutate(zone_display = str_to_display(zone)) %>%
              #filter(if_all(everything(), ~ !is.na(.))) %>%
@@ -35,8 +35,8 @@ mod_plot_epicurves <- function(df, region, acts = NULL, add_acts = FALSE,
   #links <- paste0('<a href="https://www.w3resource.com/">', zones, '</a>')
 
   tmp <- tmp %>%
-           tidytable::select.(zone, date, cases) %>%
-           tidytable::pivot_wider.(names_from = zone,
+           select(zone, date, cases) %>%
+           tidyr::pivot_wider(names_from = zone,
                                    values_from = cases)
 
   e <- echarts4r::e_charts(tmp,
@@ -52,7 +52,7 @@ mod_plot_epicurves <- function(df, region, acts = NULL, add_acts = FALSE,
 
     if (add_acts) {
       tmp_act <- acts %>%
-                   tidytable::filter.(zone == z)
+                   filter(zone == z)
 
       for (d in tmp_act$date) {
         e <- e %>%

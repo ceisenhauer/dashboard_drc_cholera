@@ -7,7 +7,7 @@
 ### overview
 <div style='height:5%; top:0' align='center'>
   <a href='#nationale' style='font-size:9px; margin-bottom:3px'>RETOUR A L'OVERVIEW</a>
-  <h2>`r tinker::str_to_display(r)`</h2>
+  <h2>`r str_to_display(r)`</h2>
 </div>
 	
 <div style='height:82%'>

@@ -12,14 +12,19 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-library(tidytable)
+library(dplyr)
 library(shiny)
 library(reactable)
 library(echarts4r)
 library(echarty)
 
-#tinker::source_directory(here::here('code', 'mods'))
-#source_directory('utils/')
+str_to_display <- function(text) {
+  out <- text %>%
+           stringr::str_replace('_', ' ') %>%
+           stringr::str_to_title()
+
+  return(out)
+}
 
 options(knitr.duplicate.label = 'allow')
 ```

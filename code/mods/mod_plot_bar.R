@@ -1,14 +1,14 @@
 mod_plot_bar <- function(df, level = 'reg') {
   if (level == 'zone') {
     df <- df %>%
-            mutate.(reg_display = tinker::str_to_display(zone),
-            cases = cases_4w)
+            mutate(reg_display = str_to_display(zone),
+                   cases = cases_4w)
   }
 
   tmp <- df %>%
-           tidytable::select.(reg_display, trend, cases) %>%
-           tidytable::pivot_wider.(names_from = trend,
-                                   values_from = cases)
+           select(reg_display, trend, cases) %>%
+           tidyr::pivot_wider(names_from = trend,
+                              values_from = cases)
 
   if ('Baisse' %notin% names(tmp)) {
     tmp$Baisse <- NA
@@ -27,7 +27,7 @@ mod_plot_bar <- function(df, level = 'reg') {
   }
 
   tmp <- tmp %>%
-           mutate_rowwise.(total = sum(Baisse, Hausse, Stable, Inconnu, na.rm = TRUE)) %>%
+           tidytable::mutate_rowwise(total = sum(Baisse, Hausse, Stable, Inconnu, na.rm = TRUE)) %>%
            arrange(total)
 
   tmp <- tmp %>%

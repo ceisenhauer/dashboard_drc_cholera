@@ -30,7 +30,7 @@ mod_render_table <- function(tbl, link_list) {
                                   min_width = 100),
                   reg = col_base(name = 'Province',
                                  cell = function(value) {
-                                   value_display <- tinker::str_to_display(value)
+                                   value_display <- str_to_display(value)
 
                                    if (value %in% link_list) {
                                      value <- gsub('_', '-', value)
@@ -96,8 +96,8 @@ mod_render_table <- function(tbl, link_list) {
 
   
   out <- tbl %>%
-           select.(zone, reg, oc, alert, neighbors, endemic, cases_spk_long, 
-                   cases_4w, trend, deaths_4w, cfr_4w) %>%
+           select(zone, reg, oc, alert, neighbors, endemic, cases_spk_long, 
+                  cases_4w, trend, deaths_4w, cfr_4w) %>%
            render_reactable(columns = columns,
                             column_groups = column_groups,
                             page_size = 20,
